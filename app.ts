@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import rootRouter from './src/routes';
+import { AppError } from './src/types/AppError';
 
 const app = express();
 
@@ -9,12 +10,6 @@ app.use(express.json());
 
 
 app.use('/api', rootRouter);
-// app.use('/api', (req: Request, res: Response) => {
-//         console.log('Test route works');
-//     res.status(201).json({
-//         message: 'Test route works, everything is okey!:)))'
-//     });
-// });
 
 app.use((req: Request, res: Response) => {
     console.log('my server error', 'No Routes Matched');
@@ -22,6 +17,16 @@ app.use((req: Request, res: Response) => {
         message: 'No Routes Matched'
     });
 
+});
+
+app.use((err: Error | AppError, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof AppError) {
+        const { code = 500, message = 'Events-board Server Error' } = err;
+        res.status(code).json({ message });
+    } else {
+        const { message } = err;
+        res.status(500).json({ message });
+    } 
 });
 
 export default app;

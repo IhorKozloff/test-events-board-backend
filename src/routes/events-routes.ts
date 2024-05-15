@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/create', asyncHandler(EventsController.create));
 
 router.get('/', asyncHandler(EventsController.getAllEvents));
+router.get('/:id', asyncHandler(EventsController.getEventById));
 
 
 export default router;

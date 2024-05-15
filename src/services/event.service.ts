@@ -1,6 +1,9 @@
-import { IEventDetails } from '../types/entities/event';
+import { AvailableStatusType, IEventDetails, IEventInfo } from '../types/entities/event';
 import { Events } from '../models/event.model';
-
+import {eventData} from '../../eventsData'
+import { Subscribers } from '../models/subscriber.model';
+import { errorMessages } from '../errors';
+import { AppError } from '../types/AppError';
 export class EventService {
 
     static async list(): Promise<IEventDetails[]> {
@@ -11,22 +14,55 @@ export class EventService {
             return [];
         }
 
+        const now = Date.now();
+
         return allEvents.map(item => {
             const sanitizedItem = item.sanitize();
-            return sanitizedItem;
+            const currentDate = new Date(sanitizedItem.eventDate).getTime();
+
+            let available_status: AvailableStatusType = 'available';
+
+            if (currentDate < now) {
+                available_status = 'expired';
+            }
+
+            return {
+                ...sanitizedItem,
+                available_status
+            };
         });
     }
 
-    static async create(): Promise<any> {
-        
-        const result = await Events.create({
-            title: "Halloween Party",
-            description: "Halloween party, yeah! It will be fun!",
-            eventDate: new Date().toISOString(),
-            organizer: "Pumpkin Jack",
-        });
+    static async findById(eventId: string): Promise<IEventInfo> {
+        const event = await Events.findById(eventId);
 
-        return result
+        if (!event) {
+            throw new AppError(404, errorMessages.EVENTS.EVENT_NOT_FOUND);
+        }
+
+        const subscribers = await Subscribers.find({subscribed_events_ids: eventId});
+  
+        return {
+            ...event.sanitize(),
+            subscribers: [
+                ...subscribers.map(item => {
+                    return {
+                        name: item.name,
+                        email: item.email
+                    }
+                })
+            ]
+        }
+
+    }
+
+    static async create(): Promise<void> {
+        await Events.insertMany(eventData.map(item => {
+            return {
+                ...item,
+                eventDate: new Date(item.eventDate).toISOString()
+            }
+        }))
     }
 
 }
