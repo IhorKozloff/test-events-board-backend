@@ -17,7 +17,7 @@ export class SubscribeService {
                 name,
                 subscribed_events_ids: [subscribed_event_id]
             });
-            return result;
+            return result.sanitize();
         } else {
             if(name === existingUser.name) {
                 
@@ -43,8 +43,9 @@ export class SubscribeService {
                         {
                             new: true,
                         }
-                );
-                    return result;
+                    );
+                    
+                    return result?.sanitize();
                 }
             } else {
                 throw new AppError(409, errorMessages.SUBSCRIBERS.EMAIL_IN_USE);
