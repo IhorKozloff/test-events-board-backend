@@ -1,6 +1,7 @@
 export const errorMessages = {
     EVENTS: {
-        EVENT_NOT_FOUND: 'Transaction by id %s not found.'
+        EVENT_NOT_FOUND: 'Transaction by id %s not found.',
+        MISSING_SORT_VALUE: 'Sort value is missing.'
     },
     SUBSCRIBERS: {
         EMAIL_IN_USE: 'THE EMAIL IS ALREADY ASSIGNED TO A USER WITH ANOTHER NICKNAME',

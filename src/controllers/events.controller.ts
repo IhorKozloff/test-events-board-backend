@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { EventService } from '../services/event.service';
 import httpStatus from 'http-status';
+import { IEventsListQueryRequest } from '../types/entities/event';
 
 export class EventsController {
 
-    static async getAllEvents(req: Request, res: Response, _next: NextFunction) {
-        const result = await EventService.list();
+    static async getAllEvents(req: IEventsListQueryRequest, res: Response, _next: NextFunction) {
+        const result = await EventService.list(req.query);
         res.status(httpStatus.OK).json(result);
     }
 

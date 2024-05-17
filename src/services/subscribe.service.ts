@@ -1,11 +1,12 @@
 import { Subscribers } from '../models/subscriber.model';
 import { errorMessages } from '../errors';
 import { AppError } from '../types/AppError';
-import { ISubscribeUserData } from '../types/entities/subscriber';
+import { ISubscribeUserData, ISubscriberDetails } from '../types/entities/subscriber';
+import httpStatus from 'http-status';
 
 export class SubscribeService {
 
-    static async create(subscribeUserData: ISubscribeUserData): Promise<any> {
+    static async create(subscribeUserData: ISubscribeUserData): Promise<ISubscriberDetails> {
 
         const { email, name, subscribed_event_id } = subscribeUserData;
 
@@ -25,7 +26,7 @@ export class SubscribeService {
 
                 if (existingEvent) {
 
-                    throw new AppError(409, errorMessages.SUBSCRIBERS.USER_ALREADY_SUBSCRIBED);
+                    throw new AppError(httpStatus.CONFLICT, errorMessages.SUBSCRIBERS.USER_ALREADY_SUBSCRIBED);
 
                 } else {
 
@@ -45,10 +46,15 @@ export class SubscribeService {
                         }
                     );
                     
-                    return result?.sanitize();
+                    if (result) {
+                        return result!.sanitize();
+                    } else {
+                        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, errorMessages.SUBSCRIBERS.EMAIL_IN_USE);
+                    }
+                    
                 }
             } else {
-                throw new AppError(409, errorMessages.SUBSCRIBERS.EMAIL_IN_USE);
+                throw new AppError(httpStatus.CONFLICT, errorMessages.SUBSCRIBERS.EMAIL_IN_USE);
             }
         }
         

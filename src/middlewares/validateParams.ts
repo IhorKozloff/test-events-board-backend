@@ -10,16 +10,17 @@ export const validateParams = (dataType: 'body' | 'params' | 'query', rules: Sch
             const validated = await rules.validateAsync(req[dataType]);
             req[dataType] = validated;
             next();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.isJoi) {
                 const { details } = error;
                 const message = details.map(item => item.message).join(',');
 
-                const newError = new AppError(httpStatus.BAD_REQUEST, message)
-                return next(newError)
+                const newError = new AppError(httpStatus.BAD_REQUEST, message);
+                return next(newError);
             }
-            const newError = new AppError(httpStatus.BAD_REQUEST, 'validation failed')
-            return next(newError)
+            const newError = new AppError(httpStatus.BAD_REQUEST, 'validation failed');
+            return next(newError);
         }
     };
 
