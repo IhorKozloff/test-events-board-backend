@@ -96,7 +96,11 @@ export class EventService {
                 })
             ]
         };
+    }
 
+    static async countTotalEvents (): Promise<number> {
+        const allEvents = await Events.find();
+        return allEvents.length;
     }
 
     static async create(): Promise<void> {

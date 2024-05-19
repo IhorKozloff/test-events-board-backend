@@ -6,8 +6,13 @@ import { IEventsListQueryRequest } from '../types/entities/event';
 export class EventsController {
 
     static async getAllEvents(req: IEventsListQueryRequest, res: Response, _next: NextFunction) {
-        const result = await EventService.list(req.query);
-        res.status(httpStatus.OK).json(result);
+        const events = await EventService.list(req.query);
+        const total_count_events = await EventService.countTotalEvents();
+
+        res.status(httpStatus.OK).json({
+            events,
+            total_count_events,
+        });
     }
 
     static async getEventById(req: Request, res: Response, _next: NextFunction) {
