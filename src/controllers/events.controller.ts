@@ -21,9 +21,4 @@ export class EventsController {
         const result = await EventService.findById(id);
         res.status(httpStatus.OK).json(result);
     }
-
-    static async create(req: Request, res: Response, _next: NextFunction) {
-        const result = await EventService.create();
-        res.status(200).json(result);
-    }
 }

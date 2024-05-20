@@ -6,8 +6,6 @@ import eventsRules from '../rules/events.rules';
 
 const router = express.Router();
 
-router.post('/create', asyncHandler(EventsController.create));
-
 router.get('/', validateParams('query', eventsRules.listQueryParams), asyncHandler(EventsController.getAllEvents));
 router.get('/:id', asyncHandler(EventsController.getEventById));
 

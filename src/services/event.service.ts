@@ -1,6 +1,5 @@
 import { AvailableStatusType, IEventDetails, IEventInfo } from '../types/entities/event';
 import { Events } from '../models/event.model';
-import {eventData} from '../../eventsData';
 import { Subscribers } from '../models/subscriber.model';
 import { errorMessages } from '../errors';
 import { AppError } from '../types/AppError';
@@ -102,14 +101,4 @@ export class EventService {
         const allEvents = await Events.find();
         return allEvents.length;
     }
-
-    static async create(): Promise<void> {
-        await Events.insertMany(eventData.map(item => {
-            return {
-                ...item,
-                eventDate: new Date(item.eventDate).toISOString()
-            };
-        }));
-    }
-
 }
