@@ -38,7 +38,7 @@ This project was launched remotely using this link https://test-events-board-bac
    - DATABASE_TEST_URL (url for you tests database connection)
    - PORT (port)
   
-     If you dont have or you dont know what is this, you can use my. Just cope code below in you .env file.
+     If you dont have or you dont know what is this, you can use my. Just copy code below in you .env file.
      ```
      DATABASE_URL=mongodb+srv://eyeshield21:112212qw@cluster0.6nmjspu.mongodb.net/db-events-board?retryWrites=true&w=majority&appName=Cluster0
      DATABASE_TEST_URL=mongodb+srv://eyeshield21:112212qw@cluster0.6nmjspu.mongodb.net/db-events-board-tests?retryWrites=true&w=majority
