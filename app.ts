@@ -10,7 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 app.use('/api', rootRouter);
 
 app.use((req: Request, res: Response) => {
@@ -21,7 +20,7 @@ app.use((req: Request, res: Response) => {
 
 });
 
-app.use((err: Error | AppError, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error | AppError, req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof AppError) {
         const { code = 500, message = 'Events-board Server Error' } = err;
         res.status(code).json({ message });

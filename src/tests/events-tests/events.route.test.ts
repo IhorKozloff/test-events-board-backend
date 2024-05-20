@@ -14,14 +14,18 @@ describe('GET:/api/events/', () => {
 
         await setDefaultEvents();
 
-        expect.assertions(3);
+        expect.assertions(4);
 
         const result = await request(app)
             .get('/api/events');
 
         expect(result.status).toBe(httpStatus.OK);
-        expect(result.body.length).toBe(1);
-        expect(result.body).toEqual(expect.arrayContaining(
+
+        expect(result.body.total_count_events).toBe(1);
+
+        expect(result.body.events.length).toBe(1);
+
+        expect(result.body.events).toEqual(expect.arrayContaining(
             [
                 expect.objectContaining({
                     ...defaultEvent,
@@ -42,8 +46,8 @@ describe('GET:/api/events/', () => {
             .get('/api/events');
 
         expect(result.status).toBe(httpStatus.OK);
-        expect(result.body.length).toBe(1);
-        expect(result.body[0]).toHaveProperty('available_status');
+        expect(result.body.events.length).toBe(1);
+        expect(result.body.events[0]).toHaveProperty('available_status');
     });
 
     it('Should return event with available_status (available), the event has not yet occurred.', async () => {
@@ -61,8 +65,8 @@ describe('GET:/api/events/', () => {
             .get('/api/events');
 
         expect(result.status).toBe(httpStatus.OK);
-        expect(result.body.length).toBe(1);
-        expect(result.body).toEqual(expect.arrayContaining(
+        expect(result.body.events.length).toBe(1);
+        expect(result.body.events).toEqual(expect.arrayContaining(
             [
                 expect.objectContaining({
                     available_status: 'available',
@@ -86,8 +90,8 @@ describe('GET:/api/events/', () => {
             .get('/api/events');
 
         expect(result.status).toBe(httpStatus.OK);
-        expect(result.body.length).toBe(1);
-        expect(result.body).toEqual(expect.arrayContaining(
+        expect(result.body.events.length).toBe(1);
+        expect(result.body.events).toEqual(expect.arrayContaining(
             [
                 expect.objectContaining({
                     available_status: 'expired',

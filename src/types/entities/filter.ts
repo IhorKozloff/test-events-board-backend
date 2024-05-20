@@ -1,12 +1,3 @@
-
-// export type AvailableSortValue = 1 | 0;
-
-// export interface ISort = {
-//     title?: AvailableSortValue;
-//     description?: AvailableSortValue;
-//     eventDate: AvailableSortValue;
-//     organizer: AvailableSortValue;
-// }
 export const KnownAvailableSortTypes = ['title', 'description', 'eventDate', 'organizer'] as const;
 export type AvailableSortType = typeof KnownAvailableSortTypes[number]
 
