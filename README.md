@@ -53,6 +53,11 @@ This project was launched remotely using this link https://test-events-board-bac
    npm start
    ```
    or, if you want to develop project
+   ## If you want to run tests...
+   1. Use script to run tests
+   ```
+   npm run test
+   ```
 
    ```
    npm run dev
