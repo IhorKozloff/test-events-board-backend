@@ -1,10 +1,10 @@
 import app from './app';
 import mongoose from 'mongoose';
 
-const { PORT = 3001, MONGO_URL } = process.env;
+const { PORT = 3001, DATABASE_URL } = process.env;
 
 mongoose
-    .connect(MONGO_URL!)
+    .connect(DATABASE_URL!)
     .then(() => app.listen(PORT))
     .then(() => {
         console.log('Database connected');
